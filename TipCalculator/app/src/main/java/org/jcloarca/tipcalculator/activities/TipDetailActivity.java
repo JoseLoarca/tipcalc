@@ -38,4 +38,5 @@ public class TipDetailActivity extends AppCompatActivity {
         txtTip.setText(strTip);
         txtTimeStamp.setText(intent.getStringExtra(DATE_KEY));
     }
+
 }
