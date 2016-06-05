@@ -1,6 +1,7 @@
 package org.jcloarca.tipcalculator.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.jcloarca.tipcalculator.R;
+import org.jcloarca.tipcalculator.activities.TipDetailActivity;
 import org.jcloarca.tipcalculator.adapters.OnItemClickListener;
 import org.jcloarca.tipcalculator.adapters.TipAdapter;
 import org.jcloarca.tipcalculator.models.TipRecord;
@@ -69,6 +71,10 @@ public class TipHistoryListFragment extends Fragment implements TipHistoryListFr
 
     @Override
     public void onItemClick(TipRecord tipRecord) {
-        Toast.makeText(getActivity(), tipRecord.getDateFormatted(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), TipDetailActivity.class);
+        intent.putExtra(TipDetailActivity.TIP_KEY, tipRecord.getTip());
+        intent.putExtra(TipDetailActivity.BILL_TOTAL_KEY, tipRecord.getBill());
+        intent.putExtra(TipDetailActivity.DATE_KEY, tipRecord.getDateFormatted());
+        startActivity(intent);
     }
 }

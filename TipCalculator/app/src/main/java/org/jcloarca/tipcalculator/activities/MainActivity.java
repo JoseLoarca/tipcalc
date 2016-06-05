@@ -3,14 +3,13 @@ package org.jcloarca.tipcalculator.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -26,6 +25,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+
+
     @Bind(R.id.inputBill)
     EditText inputBill;
     @Bind(R.id.inputPercentage)
@@ -45,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         TipHistoryListFragment fragment = (TipHistoryListFragment) getSupportFragmentManager()
-                                                                .findFragmentById(R.id.fragmentList);
+                .findFragmentById(R.id.fragmentList);
         fragment.setRetainInstance(true);
-        fragmentListener = (TipHistoryListFragment)fragment;
+        fragmentListener = (TipHistoryListFragment) fragment;
     }
 
     @Override
@@ -58,17 +59,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.action_about){
+        if (item.getItemId() == R.id.action_about) {
             about();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.btnSubmit)
-    public void handleClickSubmit(){
+    public void handleClickSubmit() {
         hideKeyboard();
         String strInputTotal = inputBill.getText().toString().trim();
-        if (!strInputTotal.isEmpty()){
+        if (!strInputTotal.isEmpty()) {
             double total = Double.parseDouble(strInputTotal);
             int tipPercentage = getTipPercentage();
 
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             String strTip = String.format(getString(R.string.global_message_tip),
-                                                                                tipRecord.getTip());
+                    tipRecord.getTip());
             fragmentListener.addToList(tipRecord);
             txtTip.setVisibility(View.VISIBLE);
             txtTip.setText(strTip);
@@ -87,13 +88,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btnIncrease)
-    public void handleClickIncrease(){
+    public void handleClickIncrease() {
         hideKeyboard();
         handleTipChange(TIP_STEP_CHANGE);
     }
 
     @OnClick(R.id.btnDecrease)
-    public void handleClickDecrease(){
+    public void handleClickDecrease() {
         hideKeyboard();
         handleTipChange(-TIP_STEP_CHANGE);
     }
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     private void handleTipChange(int change) {
         int tipPercentage = getTipPercentage();
         tipPercentage += change;
-        if(tipPercentage > 0){
+        if (tipPercentage > 0) {
             inputPercentage.setText(String.valueOf(tipPercentage));
         }
     }
@@ -114,9 +115,9 @@ public class MainActivity extends AppCompatActivity {
     public int getTipPercentage() {
         int tipPercentage = DEFAULT_TIP_PERCENTAGE;
         String strInputTipPercentage = inputPercentage.getText().toString().trim();
-        if(!strInputTipPercentage.isEmpty()){
+        if (!strInputTipPercentage.isEmpty()) {
             tipPercentage = Integer.parseInt(strInputTipPercentage);
-        }else{
+        } else {
             inputPercentage.setText(String.valueOf(tipPercentage));
         }
         return tipPercentage;
@@ -125,16 +126,16 @@ public class MainActivity extends AppCompatActivity {
     private void hideKeyboard() {
         InputMethodManager inputManager = (InputMethodManager)
                 getSystemService(Context.INPUT_METHOD_SERVICE);
-        try{
+        try {
             inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-            InputMethodManager.HIDE_NOT_ALWAYS);
-        }catch(NullPointerException npe){
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+        } catch (NullPointerException npe) {
             Log.e(getLocalClassName(), Log.getStackTraceString(npe));
         }
     }
 
     private void about() {
-        TipCalcApp app = (TipCalcApp)getApplication();
+        TipCalcApp app = (TipCalcApp) getApplication();
         String strUrl = app.getUrlAbout();
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
